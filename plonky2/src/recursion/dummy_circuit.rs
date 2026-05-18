@@ -96,10 +96,27 @@ pub fn dummy_circuit<F: RichField + Extendable<D>, C: GenericConfig<D, F = F>, c
         "Degree calculation can be off if zero-knowledge is on."
     );
 
-    // Number of `NoopGate`s to add to get a circuit of size `degree` in the end.
-    // Need to account for public input hashing, a `PublicInputGate` and a `ConstantGate`.
+    // Number of `NoopGate`s to add to get a circuit of size `degree` in
+    // the end. Need to account for public input hashing and a
+    // `PublicInputGate`. Reserve an additional row for a `ConstantGate`
+    // ONLY if the target `common_data.gates` list actually contains
+    // one — otherwise the rebuild's gate set diverges from
+    // `common_data` whenever the caller's pass-3 output absorbed its
+    // constants into other gates' coefficient slots without ever
+    // allocating a standalone `ConstantGate` (e.g. with two or more
+    // `verify_proof` calls in the same circuit). See
+    // https://github.com/zk-coins/server/issues/19 for the empirical
+    // motivation; the original `- 2` reservation panics with a
+    // `gates: [NoopGate, ConstantGate, ...]` (rebuild) vs
+    // `[NoopGate, ...]` (target) shape mismatch in that case.
     let degree = common_data.degree();
-    let num_noop_gate = degree - common_data.num_public_inputs.div_ceil(8) - 2;
+    let has_constant_gate = common_data
+        .gates
+        .iter()
+        .any(|g| g.0.id().starts_with("ConstantGate"));
+    let constant_reserve = if has_constant_gate { 1 } else { 0 };
+    let num_noop_gate =
+        degree - common_data.num_public_inputs.div_ceil(8) - 1 - constant_reserve;
 
     let mut builder = CircuitBuilder::<F, D>::new(config);
     for _ in 0..num_noop_gate {
