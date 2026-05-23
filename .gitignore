@@ -8,3 +8,10 @@ pgo-data.profdata
 
 # MacOS nuisances
 .DS_Store
+
+# Claude-specific tooling artifacts — keep project tool-agnostic.
+# Project conventions belong in CONTRIBUTING.md (a generic Markdown
+# standard readable by every team member and every AI tool), not in
+# CLAUDE.md or .claude/ directories.
+CLAUDE.md
+.claude/
