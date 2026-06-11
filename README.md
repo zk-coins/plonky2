@@ -1,3 +1,22 @@
+# zkCoins fork
+
+This is the [zk-coins](https://github.com/zk-coins) fork of
+[0xPolygonZero/plonky2](https://github.com/0xPolygonZero/plonky2). It exists to
+**pin the proving stack** for the zkCoins node's cyclic-recursion circuits — the
+[specification's](https://docs.zkcoins.app/specification) reference
+instantiation builds on Plonky2, so the zkCoins project keeps its own fork
+rather than depending on a deprecated upstream it does not control.
+
+- **Tracking upstream:** the fork tracks `0xPolygonZero/plonky2` via the
+  `upstream` remote; upstream changes are pulled in deliberately, not
+  automatically.
+- **Deprecation notice:** the Plonky2 deprecation notice below is inherited
+  upstream context — Plonky2 remains the pinned proving system for zkCoins.
+
+The original README follows unchanged.
+
+---
+
 # Plonky2 & more
 [![Discord](https://img.shields.io/discord/743511677072572486?logo=discord)](https://discord.gg/QZKRUpqCJ6)
 
