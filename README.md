@@ -3,7 +3,7 @@
 This is the [zk-coins](https://github.com/zk-coins) fork of
 [0xPolygonZero/plonky2](https://github.com/0xPolygonZero/plonky2). It exists to
 **pin the proving stack** for the zkCoins node's cyclic-recursion circuits — the
-[specification's](https://docs.zkcoins.app/specification) reference
+[specification's](https://docs.zkcoins.com/specification) reference
 instantiation builds on Plonky2, so the zkCoins project keeps its own fork
 rather than depending on a deprecated upstream it does not control.
 
